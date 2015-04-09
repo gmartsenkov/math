@@ -1,7 +1,7 @@
 require 'spec_helper'
-include FirstGem
+include Probabilities
 
-describe FirstGem do
+describe Vector do
   it 'has a version number' do
     expect(FirstGem::VERSION).not_to be nil
   end
@@ -67,6 +67,9 @@ describe FirstGem do
   sub = v2 - v1
   expect(v1.distance_to(v2)).to(eq(sub.magnitude))
  end
+end
+
+describe Probabilities do
 
  it 'applies permutation formula' do 
   expect(permutation(5)).to(eq(120))
@@ -78,5 +81,58 @@ describe FirstGem do
   expect(combinations(6,4)).to(eq(15))
   comb_to_perm = (permutation(6) / permutation(6-4)) / permutation(4)
   expect(combinations(6,4)).to(eq(comb_to_perm))
+ end
+
+end
+
+
+describe Matrix do 
+ 
+ it 'creates a matrix' do
+  m = Matrix[[5,3],[5,5]]
+  expect(m.input[0][0]).to(eq(5))
+ end
+
+ it 'return matrix number of columns and rows' do 
+  m = Matrix[[1,2,3],[1,2,3]]
+  expect(m.column).to(eq(2))
+  expect(m.row).to(eq(3))
+ end
+
+ it 'sums two matrix' do
+  m1 = Matrix[[1,1],[1,1]]
+  m2 = Matrix[[1,1],[1,1]]
+  m3 = m1 + m2
+  expect(m3).to(eq(Matrix[[2,2],[2,2]]))
+ end
+ 
+ it 'sub two matrix' do
+  m1 = Matrix[[2,2],[2,2]]
+  m2 = Matrix[[1,1],[1,1]]
+  m3 = m1 - m2
+  expect(m3).to(eq(Matrix[[1,1],[1,1]]))
+ end
+
+ it 'transpose of the matrix' do
+  m = Matrix[[1,2,3],[4,5,6]]
+  m_transpose = m.transpose
+  expect(m_transpose).to(eq(Matrix[[1,4],[2,5],[3,6]]))
+  expect(m_transpose.transpose).to(eq(m))
+ end
+
+ it 'builds empty zero square matrix' do 
+  m = Matrix.zero(3)
+  expect(m).to(eq(Matrix[[0,0,0],[0,0,0],[0,0,0]]))
+ end
+
+ it 'raise ErrDimensionMismatch error' do
+  m1 = Matrix[[2,2],[2,2]]
+  m2 = Matrix[[2,2,2],[2,2]]
+  
+  expect(m2.normal?).to(eq(false))
+  
+  expect(m1).to_not(eq(m2))
+  expect { m1 - m2 }.to raise_error('ErrDimensionMismatch')
+  expect { m1 + m2 }.to raise_error('ErrDimensionMismatch')
  end
 end

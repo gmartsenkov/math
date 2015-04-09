@@ -63,8 +63,7 @@ class Vector
 	end
 end
 
-
-module FirstGem
+module Probabilities
 	def permutation(n,b=nil)
 		arr = Array.new
 		output = 1
